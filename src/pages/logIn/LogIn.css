@@ -1,0 +1,98 @@
+.login-container {
+  .subtitle {
+    text-align: center;
+  }
+}
+
+.login-form {
+  width: 100%;
+}
+
+.input-group-logIn {
+  padding: 0.5rem;
+}
+
+.input-group-form-logIn {
+  width: 100%;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  outline: none;
+  border: 1px solid var(--color-terceary);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  transition: border-color 0.3s ease;
+}
+
+.input-group-form-logIn:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.label-group-logIn {
+  display: block;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  font-size: 1.2em;
+  margin-top: 0.25rem;
+}
+
+.logRegBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btnCreateAcc{
+    padding: 0.75rem;
+    border-radius: 30px;
+    border: transparent;
+    font-size: .75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    letter-spacing: 1px;
+    outline: none;
+    transition: background-color 0.25s ease-in-out;
+    cursor: pointer;
+    margin-top: 1rem;
+
+  
+    &:hover {
+      background-color: var(--color-blue-light);
+    }
+}
+
+.btnRegister{
+    text-decoration: none;
+    color: var(--color-secondary);
+
+}
+
+.btnLogIn {
+  padding: 0.75rem;
+  border-radius: 30px;
+  border: transparent;
+  font-size: .75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  letter-spacing: 1px;
+  outline: none;
+  transition: background-color 0.25s ease-in-out;
+  cursor: pointer;
+  margin-top: 1rem;
+
+  &:hover {
+    background-color: var(--color-blue-light);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .input-group-form-logIn {
+    padding: .75rem 1rem;
+    font-size: 1rem;
+  }
+}

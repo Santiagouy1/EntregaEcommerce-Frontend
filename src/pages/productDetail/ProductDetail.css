@@ -1,0 +1,331 @@
+#main-product-container {
+  flex-grow: 1;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: auto;
+}
+.section-title-img-mobile {
+  display: flex;
+  flex-direction: column;
+}
+
+.img-product-container {
+  width: auto;
+  .img-product {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+  }
+}
+
+.title-text-product {
+  margin-bottom: 1rem;
+  order: -1;
+  .title-text {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 1.5em;
+  }
+}
+
+.price-input {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  .text-price {
+    .price {
+      font-weight: 700;
+      font-size: 1.3em;
+    }
+  }
+
+  .input-box-cantidad {
+    .label-group-cantidad {
+      font-weight: 500;
+      font-size: 1.2em;
+      margin-right: 0.5rem;
+    }
+
+    select {
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 10px;
+      font-size: 1em;
+      border: 1px solid var(--color-terceary);
+      transition: border-color 0.25 ease-in-out, border-radius 0.25s ease-in-out;
+
+      &:focus {
+        border-color: var(--color-blue-light);
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+.btn-add-detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem;
+  
+  .card-adding {
+    cursor: pointer;
+    padding: 10px 25px;
+    border-radius: 20px;
+    border: none;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    transition: background-color 0.25s ease-in-out;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      background-color: var(--color-blue-light);
+    }
+  }
+}
+
+.section-title-img-desktop {
+  display: none;
+  flex-direction: column;
+
+  .img-product-container {
+    width: auto;
+    .img-product {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 1 / 1;
+    }
+  }
+
+  .title-text-product {
+    margin-bottom: 1rem;
+    order: -1;
+    .title-text {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 700;
+      font-size: 1.5em;
+    }
+  }
+
+  .colores-productos {
+    padding: 1rem 1rem 0.5rem;
+    margin-bottom: 1rem;
+
+    .text-color-productos {
+      font-size: 1em;
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+    }
+
+    .img-colores-productos {
+      display: flex;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      .img-colores {
+        width: 100%;
+        object-fit: cover;
+        aspect-ratio: 1 / 1;
+
+        &:hover {
+          border: 2px solid var(--color-blue-light);
+        }
+      }
+    }
+  }
+
+  .price-input {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    .text-price {
+      .price {
+        font-weight: 700;
+        font-size: 1.3em;
+      }
+    }
+
+    .input-box-cantidad {
+      .label-group-cantidad {
+        font-weight: 500;
+        font-size: 1.2em;
+        margin-right: 0.5rem;
+      }
+
+      select {
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 10px;
+        font-size: 1em;
+        border: 1px solid var(--color-terceary);
+        transition: border-color 0.25 ease-in-out,
+          border-radius 0.25s ease-in-out;
+
+        &:focus {
+          border-color: var(--color-blue-light);
+          border-radius: 0;
+        }
+      }
+    }
+  }
+ 
+}
+
+.section-description {
+  .title-description-prodcut {
+    font-family: "Montserrat", sans-serif;
+    text-align: center;
+
+    .title-description {
+      font-size: 2em;
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--color-terceary);
+      font-weight: 700;
+    }
+
+    .description-info {
+      font-size: 1em;
+      padding: 0.5rem;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+  }
+
+  .text-description-product {
+    .text-description {
+      padding: 1rem;
+      font-size: 1em;
+      font-weight: 300;
+    }
+  }
+}
+
+@media screen and (width >= 767px) {
+  .section-title-img-mobile {
+    display: none;
+  }
+  .section-title-img-desktop {
+    flex-direction: row;
+    position: relative;
+    display: flex;
+  }
+
+  .container-title-price-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+
+    .title-text-product {
+      margin: 0;
+      padding: 0.5rem;
+    }
+    .price-input {
+      .price {
+        margin-right: 1rem;
+        padding: 0.5rem;
+      }
+    }
+  }
+}
+
+@media screen and (width >= 1023px) {
+  #main-product-container {
+    .section-title-img-desktop {
+      .colores-productos {
+        .text-color-productos {
+          font-size: 1.2em;
+        }
+        .img-colores-productos {
+          .img-colores {
+            margin-bottom: 0.75rem;
+          }
+        }
+      }
+
+      .container-title-price-btn {
+        .title-text-product {
+          font-size: 1.3em;
+        }
+        .price-input {
+          .price {
+            font-size: 1.5em;
+          }
+          .input-box-cantidad {
+            .label-group-cantidad {
+              font-size: 1.3em;
+            }
+          }
+        }
+      }
+    }
+    .section-description {
+      .title-description-prodcut {
+        .title-description {
+          font-size: 2.2em;
+          padding: 1rem;
+        }
+
+        .description-info {
+          font-size: 1.2em;
+          padding: 0.75rem;
+        }
+      }
+
+      .text-description-product {
+        .text-description {
+          font-size: 1.2em;
+        }
+      }
+    }
+  }
+  .btn-add-detail {
+    padding: 0.5rem;
+    .card-add {
+      font-size: 1.2em;
+    }
+  }
+}
+
+@media screen and (width >= 1440px) {
+  .text-color-productos {
+    font-size: 1.2em;
+  }
+
+  .img-colores-productos {
+    .img-colores {
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .title-text-product {
+    font-size: 1.4em;
+  }
+
+  .price {
+    font-size: 1.6em;
+  }
+
+  .input-box-cantidad {
+    .label-group-cantidad {
+      font-size: 1.4em;
+    }
+  }
+  .description-info {
+    font-size: 1.4em;
+  }
+
+  .title-description {
+    font-size: 2.4em;
+  }
+
+  .btn-add-detail {
+    .card-add {
+      font-size: 1.3em;
+    }
+  }
+}

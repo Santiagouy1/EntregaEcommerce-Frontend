@@ -1,0 +1,163 @@
+.section-register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    color: var(--color-terceary);
+  }
+  
+  .form-box {
+    padding: 1rem;
+    width: 350px;
+    height: auto;
+    position: relative;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 1px 7px;
+    text-align: center;
+    flex-direction: column;
+    background-color: var(--color-secondary);
+    input[type="date"]::-webkit-inner-spin-button,
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      display: none;
+      -webkit-appearance: none;
+    }
+  }
+  
+  
+  .title-register {
+    border-bottom: solid var(--color-primary) 2px;
+    margin-bottom: 1rem;
+    width: 80%;
+  
+    .register-title {
+      color: var(--color-terceary);
+    }
+  }
+  
+  .input-box {
+    position: relative;
+    margin: 1rem 0;
+    width: 100%;
+    border-bottom: 1px solid var(--color-terceary);
+  
+    .label-group {
+      position: absolute;
+      top: 50%;
+      left: 5px;
+      transform: translateY(-50%);
+      font-size: 1em;
+      font-weight: 500;
+      pointer-events: none;
+      transition: 0.5s;
+    }
+  
+    .input-group {
+      width: 100%;
+      height: 40px;
+      background-color: transparent;
+      border: none;
+      outline: none;
+    }
+  
+    .icons-register {
+      position: absolute;
+      right: 8px;
+      font-size: 1em;
+      top: 15px;
+    }
+  
+    :focus ~ .label-group,
+    :valid ~ .label-group {
+      top: -5px;
+      font-size: 0.75em;
+    }
+  }
+  
+  .input-box-departamento {
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid var(--color-terceary);
+      border-radius: 10px;
+      background-color: transparent;
+      color: var(--color-terceary);
+      transition: border-color 0.25s ease-in-out,
+        border-radius 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+      cursor: pointer;
+      &:focus {
+        border-color: var(--color-blue-light);
+        outline: none;
+        box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+        border-radius: 0;
+      }
+    }
+  }
+  
+  .btn-register {
+    padding: 10px 20px;
+    border-radius: 20px;
+    background: var(--color-primary);
+    color: var(--color-secondary);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    margin: 1rem 0;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+  
+  @media screen and (width >= 767px) {
+        .input-box {
+          .label-group {
+            font-size: 1.2em;
+          }
+  
+          .input-group {
+            height: 50px;
+          }
+  
+          .icons-register {
+            font-size: 1.2em;
+          }
+  
+          :focus ~ .label-group,
+          :valid ~ .label-group {
+            top: -5px;
+            font-size: 1em;
+          }
+        }
+    }
+  
+  @media screen and (width >= 1023px) {
+    #section-register {
+      .form-box {
+        .input-box {
+          .label-group {
+            font-size: 1.3em;
+          }
+  
+          .input-group {
+            height: 60px;
+          }
+  
+          .icons-register {
+            font-size: 1.3em;
+          }
+  
+          :focus ~ .label-group,
+          :valid ~ .label-group {
+            top: -5px;
+            font-size: 1em;
+          }
+        }
+      }
+    }
+  }
+  

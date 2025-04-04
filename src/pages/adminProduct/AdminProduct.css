@@ -1,0 +1,152 @@
+.parent{
+  display: flex;
+  flex-direction: column;
+}
+
+.formNewProducts {
+  margin-right: 3rem;
+}
+
+.formulario-container {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-item {
+  width: 100%;
+}
+
+.container-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-product {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  width: 100%;
+  margin: 1rem 0;
+
+  th {
+    padding: 0.5rem 1rem;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    font-weight: 500;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: var(--color-blue-light);
+  }
+
+  th,
+  td {
+    border: solid 1px var(--color-terceary);
+  }
+
+  tr {
+    > td {
+      padding: 0.5rem;
+    }
+  }
+
+  .image-cell {
+    text-align: center;
+    .table-image {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: drop-shadow(4px 4px 6px #525252);
+    }
+  }
+
+  .name-cell {
+    text-align: center;
+    font-weight: 500;
+    .text-name-cell {
+      display: -webkit-box;
+      line-clamp: 3;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .category-cell{
+    text-align: center;
+    font-weight: 500;
+    .text-name-cell {
+      display: -webkit-box;
+      line-clamp: 3;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .description-cell {
+    padding: 0.5rem;
+    font-weight: 500;
+    .text-description-cell {
+      display: -webkit-box;
+      line-clamp: 3;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .price-cell {
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .icon-container {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+}
+
+.btnEditarProducts {
+  background-color: var(--color-gray-dark);
+
+  &:hover {
+    background-color: var(--color-terceary);
+  }
+}
+
+@media screen and (width >= 767px){
+  .formulario-container{
+    display: block  ;
+  }
+  .parent{
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .container-table {
+    overflow-x: initial;
+    max-width: 100%;
+    .table-products {
+      margin: 0;
+    }
+  }
+
+}
+
+@media screen and (width >= 1439px){
+  .formulario-container{
+    display: block  ;
+  }
+  .table-product{
+    th{
+      padding: 1rem 1.5rem;
+          font-size: 1.1em;
+    }
+  }
+}

@@ -1,0 +1,235 @@
+.main-container {
+  padding: 1rem;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.userTitle {
+  margin: 1.5rem 0 1rem 0;
+}
+
+.loading {
+  background-color: var(--color-light-green);
+  color: var(--color-green);
+  border: 1px solid var(--color-green);
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+.parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 3rem;
+}
+
+.newUser {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin-bottom: 2rem;
+
+  li {
+    list-style: none;
+  }
+}
+
+.user-list {
+  padding: 2rem;
+  border-radius: 30px;
+  background-color: var(--color-gray-light);
+  width: 300px;
+  margin-top: 2rem;
+  box-shadow: 1px 1px 10px var(--color-gray-dark);
+
+  p {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  p:last-child {
+    margin-bottom: 1rem;
+  }
+}
+
+.user-item {
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-terceary);
+  display: flex;
+  align-items: center;
+}
+
+.formNewUser {
+  width: 300px;
+  background-color: var(--color-gray-light);
+  padding: 1.5rem;
+  border-radius: 30px;
+  margin-bottom: 1.5rem;
+  box-shadow: 1px 1px 10px var(--color-gray-dark);
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.label-group {
+  display: block;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  font-size: 1.2em;
+  margin-top: 0.25rem;
+}
+
+.input-group-form {
+  width: 250px;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  outline: none;
+  border: 1px solid var(--color-terceary);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  transition: border-color 0.3s ease;
+}
+
+.input-group-form:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.input-group-admin,
+.input-group-departamento {
+  select {
+    width: 250px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid var(--color-terceary);
+    border-radius: 10px;
+    background-color: var(--color-secondary);
+    color: var(--color-terceary);
+    transition: border-color 0.25s ease-in-out, border-radius 0.25s ease-in-out,
+      box-shadow 0.25s ease-in-out;
+    cursor: pointer;
+
+    &:focus {
+      border-color: var(--color-blue-light);
+      outline: none;
+      box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+      border-radius: 0;
+    }
+  }
+}
+
+.label-mensaje {
+  display: block;
+  padding-bottom: 0.5rem;
+  margin-left: 1rem;
+  font-size: 1.2em;
+}
+
+.btn-formulario-container {
+  width: 250px;
+  padding: 0.75rem;
+  border-radius: 30px;
+  border: transparent;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  letter-spacing: 1px;
+  outline: none;
+  transition: background-color 0.25s ease-in-out;
+  cursor: pointer;
+  margin-top: 1rem;
+
+  &:hover {
+    background-color: var(--color-blue-light);
+  }
+}
+
+.btnEliminarForm {
+  background-color: var(--color-accent);
+
+  &:hover {
+    background-color: var(--color-accent-2);
+  }
+}
+
+.botonesAdmin {
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (width >= 767px) {
+  .parent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+
+  .user-list {
+    margin-top: 0;
+  }
+
+  .input-group-form {
+    padding: 0.75rem 0.75rem 0.75rem 1rem;
+    width: 100%;
+  }
+  .input-group-admin,
+  .input-group-departamento {
+    select {
+      padding: 0.75rem;
+      width: 100%;
+    }
+  }
+  .btn-formulario-container{
+    width: 100%;
+  }
+
+  .formNewUser {
+    width: 300px;
+    background-color: var(--color-gray-light);
+    padding: 1.5rem;
+    border-radius: 30px;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 767px) and (max-width: 1023px) {
+  .input-group-form {
+    width: 250px;
+  }
+  .input-group-admin,
+  .input-group-departamento {
+    select {
+      width: 250px;
+    }
+  }
+  .btn-formulario-container{
+    width: 250px;
+  }
+
+}
+
+@media screen and (width >= 1023px) {
+  .formNewUser {
+    width: 400px;
+  }
+  .newUser {
+    width: 400px;
+  }
+  .input-group-form {
+    padding: 1rem;
+  }
+  .input-group-admin,
+  .input-group-departamento {
+    select {
+      padding: 1rem;
+    }
+  }
+}

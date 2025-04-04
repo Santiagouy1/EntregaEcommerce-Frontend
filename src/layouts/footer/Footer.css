@@ -1,0 +1,222 @@
+#main-footer {
+    background-color: var(--color-bg-footer);
+    color: var(--color-terceary);
+  
+    .footer-info {
+      font-size: 0.75rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  
+      .order-list-footer {
+        list-style: none;
+  
+        .list-footer {
+          text-decoration: none;
+          padding: 0.5rem 0 0;
+          color: var(--color-white);
+  
+          a {
+            color: var(--color-white);
+            transition: color 0.25s ease-in-out;
+            text-decoration: none;
+            &:hover {
+              color: var(--color-text-secondary);
+              text-decoration: underline;
+            }
+          }
+        }
+  
+        .title-section {
+          font-weight: bold;
+        }
+      }
+  
+      .title-section {
+        font-size: 1.5rem;
+        padding: 0.75rem 0;
+        font-weight: 700;
+      }
+  
+      .empresa-info {
+        margin-bottom: 1rem;
+        text-align: center;
+  
+        .list-footer-empresa {
+          font-size: 1rem;
+          padding: 0.25rem 0;
+  
+          a {
+            text-decoration: none;
+            color: var(--color-terceary);
+            transition: color 0.25s ease-in-out;
+  
+            &:hover {
+              color: var(--color-secondary);
+            }
+          }
+        }
+      }
+  
+      .cuentas-info {
+        margin-bottom: 1rem;
+        text-align: center;
+        .list-footer-redes {
+          display: inline-block;
+          padding: 0.5rem;
+          font-size: 1.5rem;
+          cursor: pointer;
+  
+          a {
+            color: var(--color-terceary);
+            transition: color 0.25s ease-in-out;
+  
+            &:hover {
+              color: var(--color-secondary);
+            }
+          }
+        }
+      }
+  
+      .logo-footer {
+        display: flex;
+        .img-footer {
+          width: 200px;
+          .logo-img-footer {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+          }
+        }
+        .name {
+          display: none;
+        }
+      }
+    }
+    .footer-bottom {
+      padding: 1rem;
+      text-align: center;
+      color: var(--color-gray-dark);
+    }
+  }
+  
+  @media screen and (min-width: 760px) and (max-width: 960px) {
+      #main-footer {
+        .footer-info {
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: center;
+    
+          .empresa-info {
+            text-align: initial;
+            display: flex;
+            align-self: flex-start;
+          }
+    
+          .cuentas-info {
+            text-align: initial;
+            align-self: flex-start;
+          }
+    
+          .logo-footer {
+            .img-footer {
+              .logo-img-footer {
+                width: 100%;
+              }
+            }
+            .name {
+              display: none;
+            }
+          }
+        }
+        .footer-bottom {
+          padding: 1rem;
+          text-align: center;
+          color: var(--color-gray-dark);
+        }
+      }
+    }
+    @media screen and (min-width: 960px) and (max-width: 1023px) {
+      #main-footer {
+        .footer-info {
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: center;
+    
+          .empresa-info {
+            text-align: initial;
+            display: flex;
+            align-self: flex-start;
+          }
+    
+          .cuentas-info {
+            text-align: initial;
+            align-self: flex-start;
+          }
+    
+          .logo-footer {
+            .img-footer {
+              .logo-img-footer {
+                width: 100%;
+              }
+            }
+            .name {
+              display: none;
+            }
+          }
+        }
+        .footer-bottom {
+          padding: 1rem;
+          text-align: center;
+          color: var(--color-gray-dark);
+        }
+      }
+    }
+  
+    @media screen and (min-width: 1024px) {
+      #main-footer {
+        .footer-info {
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: center;
+    
+          .empresa-info {
+            text-align: initial;
+            display: flex;
+            align-self: flex-start;
+          }
+    
+          .cuentas-info {
+            text-align: initial;
+            align-self: flex-start;
+          }
+    
+          .logo-footer {
+            .img-footer {
+              .logo-img-footer {
+                width: 100%;
+              }
+            }
+            .name {
+              display: flex;
+              align-items: center;
+              font-size: 2rem;
+    
+              .name-logo {
+                color: var(--color-secondary);
+                b {
+                  color: var(--color-primary);
+                }
+              }
+            }
+          }
+        }
+        .footer-bottom {
+          padding: 1rem;
+          text-align: center;
+          color: var(--color-gray-dark);
+        }
+      }
+    }

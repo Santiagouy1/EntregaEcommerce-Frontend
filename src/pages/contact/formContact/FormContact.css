@@ -1,0 +1,103 @@
+.formulario-container-contact {
+  width: 100%;
+}
+
+.input-group-contact {
+  margin-bottom: 1rem;
+}
+
+.label-group-contact {
+  display: block;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  font-size: 1.2em;
+}
+
+.input-group-form-contact,
+textarea {
+  width: 100%;
+  padding: 0.75rem;
+  outline: none;
+  border: 1px solid var(--color-terceary);
+  border-radius: 20px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.input-group-contact-form-contact:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.label-mensaje {
+  display: block;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  font-size: 1.2em;
+}
+
+.btn-formulario-container-contact {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 30px;
+  border: transparent;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  letter-spacing: 1px;
+  outline: none;
+  transition: background-color 0.25s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--color-blue-light);
+  }
+}
+
+.error-message {
+  color: var(--color-accent-2);
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+}
+
+.input-error {
+  border-color: #dc3545;
+}
+
+.mensaje-exito,
+.mensaje-error {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.mensaje-error {
+  background-color: var(--color-accent-2);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+}
+
+@media screen and (width >= 767px) {
+  .formulario-container-contact {
+    padding: 0 1rem 1rem;
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 1023px){
+  .formulario-container-contact {
+    padding: 0 1rem 1rem;
+    width: 45%;
+  }
+}
+
+@media screen and (min-width: 1439px){
+  .formulario-container-contact {
+    width: 35%;
+  }
+}

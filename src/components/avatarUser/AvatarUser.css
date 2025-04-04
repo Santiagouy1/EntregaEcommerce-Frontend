@@ -1,0 +1,24 @@
+.ing-reg-avatar {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.ingReg {
+  margin: 0 0 0 0.75rem;
+  color: var(--color-secondary);
+  transition: color 0.5s ease-in-out;
+}
+
+.ingReg:hover {
+  color: var(--color-gray-light);
+}
+
+.logout-button {
+  padding: 1rem;
+  border-radius: 30px;
+  background-color: var(--color-accent);
+  border: none;
+}
