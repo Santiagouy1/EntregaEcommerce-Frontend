@@ -1,32 +1,8 @@
-import { Navigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import { useAuth } from '../../context/AuthContext';
+import { Navigate } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 
-export const ProtectedRoute = ({ children, requiredRole }) => {
-    const { isAuthenticated, user, loadingAuth } = useAuth();
+export const ProtectedRoute = ({ children }) => {
+  const { user } = useUser();
 
-    if (loadingAuth) {
-        return <div>Cargando...</div>; 
-    }
-
-    if (!isAuthenticated) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Acceso denegado',
-            text: 'Debes iniciar sesión para acceder a esta página'
-        });
-        return <Navigate to="/" replace />;
-    }
-
-    // Verificar rol si se necesita
-    if (requiredRole === 'admin' && (!user || !user.admin)) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Acceso restringido',
-            text: 'No tienes permisos para acceder a esta página'
-        });
-        return <Navigate to="/" replace />;
-    }
-
-    return children;
+  return user?.role === "admin" ? children : <Navigate to="/" />;
 };

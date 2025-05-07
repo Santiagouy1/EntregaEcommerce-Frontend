@@ -3,6 +3,8 @@ import Titles from "../../components/titles/Titles";
 import { useState, useEffect } from "react";
 import UserForm from "./UserForm";
 import UserList from "./UserList";
+import { URL } from "../../config/env.config";
+import { useUser } from "../../context/UserContext"; 
 
 const AdminUser = ({ title }) => {
   const [users, setUsers] = useState([]);
@@ -11,8 +13,9 @@ const AdminUser = ({ title }) => {
   const [success, setSuccess] = useState(false);
   const [edicionModo, setEdicionModo] = useState(false);
   const [editarUsuarioId, setEditarUsuarioId] = useState(null);
+  const { token } = useUser(); 
 
-  const URL = "https://67cb832e3395520e6af589a3.mockapi.io/users";
+  const URL_USERS = `${URL}/users`;
 
   useEffect(() => {
     document.title = title;
@@ -28,7 +31,7 @@ const AdminUser = ({ title }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(URL);
+      const response = await fetch(URL_USERS);
       if (!response.ok) throw new Error("Error al cargar usuarios");
       const data = await response.json();
       setUsers(data);
@@ -41,10 +44,9 @@ const AdminUser = ({ title }) => {
   };
 
   // funcion para cargar datos del usuario al formulario
-
   const handleEdit = async (user) => {
     setEdicionModo(true);
-    setEditarUsuarioId(user.id);
+    setEditarUsuarioId(user._id);
     return Promise.resolve(user);
   };
 
@@ -62,39 +64,72 @@ const AdminUser = ({ title }) => {
     try {
       let response;
       let method;
-      let endpoint = URL;
+      let endpoint = URL_USERS;
+      let headers = {
+        "Content-Type": "application/json",
+      };
 
+      // Si es edición, añadimos el token de autenticación
       if (isEditing) {
         method = "PUT";
-        endpoint = `${URL}/${editarUsuarioId}`;
+        endpoint = `${URL_USERS}/${editarUsuarioId}`;
+        headers = {
+          ...headers,
+          "access_token": token, // Enviamos el token
+        };
       } else {
         method = "POST";
       }
 
       response = await fetch(endpoint, {
         method: method,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headers,
         body: JSON.stringify(userData),
       });
 
       if (!response.ok) {
-        throw new Error(
-          `Error al ${isEditing ? "actualizar" : "agregar"} usuario`
-        );
+        const responseClone = response.clone(); 
+        
+        const errorData = await responseClone.json().catch(async () => {
+          const textError = await response.text();
+          return { message: textError };
+        });
+        
+        let errorMessage = `Error al ${isEditing ? "actualizar" : "agregar"} usuario`;
+        
+        if (response.status === 401) {
+          errorMessage = "No tienes autorización para realizar esta acción. Por favor, inicia sesión nuevamente.";
+        } else if (response.status === 403) {
+          errorMessage = "No tienes permisos suficientes para realizar esta acción.";
+        } else if (errorData && errorData.message) {
+          errorMessage = errorData.message;
+          
+          if (errorData.errors && Array.isArray(errorData.errors)) {
+            errorMessage += ": " + errorData.errors.join(', ');
+          }
+        }
+        
+        throw new Error(errorMessage);
       }
 
-      const resultUser = await response.json();
+      // Procesar la respuesta exitosa
+      const resultData = await response.json();
+      let userResult;
+      
+      if (resultData.user) {
+        userResult = resultData.user;
+      } else {
+        userResult = resultData;
+      }
 
       if (isEditing) {
         setUsers(
-          users.map((user) => (user.id === editarUsuarioId ? resultUser : user))
+          users.map((user) => (user._id === editarUsuarioId ? userResult : user))
         );
         setEdicionModo(false);
         setEditarUsuarioId(null);
       } else {
-        setUsers([...users, resultUser]);
+        setUsers([...users, userResult]);
       }
 
       setSuccess(true);
@@ -105,7 +140,7 @@ const AdminUser = ({ title }) => {
       return true;
     } catch (err) {
       setError(err.message);
-      console.error("Error:", err);
+      console.error(err);
       return false;
     } finally {
       setLoading(false);
@@ -118,13 +153,20 @@ const AdminUser = ({ title }) => {
     setError(null);
 
     try {
-      const response = await fetch(`${URL}/${id}`, {
+      const response = await fetch(`${URL_USERS}/${id}`, {
         method: "DELETE",
       });
 
-      if (!response.ok) throw new Error("Error al eliminar usuario");
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null) || await response.text();
+        throw new Error(
+          typeof errorData === 'object' && errorData.message 
+            ? errorData.message 
+            : "Error al eliminar usuario"
+        );
+      }
 
-      setUsers(users.filter((user) => user.id !== id));
+      setUsers(users.filter((user) => user._id !== id));
 
       setSuccess(true);
       setTimeout(() => {
@@ -161,7 +203,7 @@ const AdminUser = ({ title }) => {
           onSubmit={handleSubmit}
           editMode={edicionModo}
           editUserId={editarUsuarioId}
-          userToEdit={users.find((user) => user.id === editarUsuarioId)}
+          userToEdit={users.find((user) => user._id === editarUsuarioId)}
           onCancelEdit={cancelEdit}
           loading={loading}
         />

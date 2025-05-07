@@ -3,10 +3,11 @@ import logo from "../../assets/images/logos/Logo-tecno-mart-white-removebg.png";
 import BotonCarrito from "../../components/botonCarrito/BotonCarrito";
 import AvatarUser from "../../components/avatarUser/AvatarUser";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useUser } from "../../context/UserContext";
 
 const Header = () => {
-  const { isAuthenticated, user } = useAuth();
+
+  const { user } = useUser();
 
   return (
     <header id="main-header">
@@ -49,15 +50,13 @@ const Header = () => {
               Nosotros
             </NavLink>
           </li>
-
           <li className="nav-item">
             <NavLink className="nav-link" to="/register">
               Registrar
             </NavLink>
           </li>
-
           {/* Rutas Admin */}
-          {isAuthenticated && user && user.admin && (
+          {user?.role === "admin" && (
             <>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/admin-products">
@@ -71,6 +70,7 @@ const Header = () => {
               </li>
             </>
           )}
+          
         </ul>
       </nav>
 

@@ -2,7 +2,7 @@ import "./LogIn.css";
 import SubTitle from "../../components/titles/Subtitle";
 import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useAuth } from "../../context/AuthContext";
+import { useUser } from "../../context/UserContext";
 
 const LogIn = () => {
   const { 
@@ -11,16 +11,12 @@ const LogIn = () => {
     formState: { errors } 
   } = useForm();
 
-  const { login } = useAuth();
-
-  const onSubmit = (data) => {
-    login(data.email, data.password);
-  };
+  const { login } = useUser(); 
 
   return (
     <div className="login-container">
       <SubTitle title={"Iniciar Sesión"} />
-      <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+      <form className="login-form" onSubmit={handleSubmit(login)}>
         <div className="input-group-logIn">
           <input 
             className="input-group-form-logIn" 

@@ -1,12 +1,14 @@
 import BotonEliminar from "../../components/botonEliminar/BotonEliminar";
 import BotonEditar from "../../components/botonEditar/BotonEditar";
 
-const ProductTable = ({ products, loading, onEdit, onDelete }) => {
-  if (loading && !products.length) {
+const ProductTable = ({ products = [], loading, onEdit, onDelete }) => {
+  const productList = Array.isArray(products) ? products : [];
+  
+  if (loading && !productList.length) {
     return <p className="loading">Cargando productos...</p>;
   }
 
-  if (products.length === 0 && !loading) {
+  if (productList.length === 0 && !loading) {
     return <p className="no-products">No hay productos registrados</p>;
   }
 
@@ -25,15 +27,14 @@ const ProductTable = ({ products, loading, onEdit, onDelete }) => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
-              <tr key={product.id} className="product-item">
+            {productList.map((product) => (
+              <tr key={product._id} className="product-item">
                 <td className="image-cell">
                   <img
                     loading="lazy"
-                    src={product.image}
+                    src={`${import.meta.env.VITE_FILES_URL}/products/${product.image}`}
                     alt={product.product}
                     className="table-image"
-                    style={{ maxWidth: "50px", maxHeight: "50px" }}
                   />
                 </td>
                 <td className="name-cell">
@@ -57,7 +58,7 @@ const ProductTable = ({ products, loading, onEdit, onDelete }) => {
                       className="btn btnEditarProducts"
                     />
                     <BotonEliminar
-                      onDelete={() => onDelete(product.id)}
+                      onDelete={() => onDelete(product._id)}
                       itemType="producto"
                       itemName={product.product}
                       className="btn btnEliminar"

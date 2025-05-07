@@ -3,24 +3,19 @@ import logoUser from "../../assets/images/avatar-user.png";
 import Modal from "../modal/Modal";
 import LogIn from "../../pages/logIn/LogIn";
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useUser } from "../../context/UserContext";
 
 const AvatarUser = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useUser(); 
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
-
-  const handleLogout = () => {
-    localStorage.removeItem("usuario");
-    window.location.reload();
-  };
 
   return (
     <div className="picture-container">
       <div
         className="ing-reg-avatar"
-        onClick={isAuthenticated ? handleLogout : toggleModal}
+        onClick={isAuthenticated ? logout : toggleModal}
       >
         <p className="ingReg">
           {isAuthenticated ? (

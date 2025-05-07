@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCart } from '../../context/OrderContext';
 import './ProductDetail.css';
+import { URL } from '../../config/env.config';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -13,7 +14,7 @@ const ProductDetail = () => {
   // Contexto del carrito
   const { addToCart } = useCart();
   
-  const URL_PRODUCTS = "https://67cb832e3395520e6af589a3.mockapi.io/products";
+  const URL_PRODUCTS = `${URL}/products`;
   
   useEffect(() => {
     const fetchProductDetail = async () => {
@@ -23,7 +24,14 @@ const ProductDetail = () => {
         if (!response.ok) throw new Error("Error al cargar el producto");
         
         const data = await response.json();
-        setProduct(data);
+        
+        // Verificar si la respuesta es un objeto válido
+        if (data && typeof data === 'object') {
+          setProduct(data);
+        } else {
+          throw new Error("El formato de datos recibido no es válido");
+        }
+        
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -60,13 +68,24 @@ const ProductDetail = () => {
     }
   };
   
+  // Construir URL de imagen
+  const getImageUrl = (imageName) => {
+    if (!imageName) return '';
+    
+    // Verifica si es una URL 
+    if (imageName.startsWith('http')) {
+      return imageName;
+    }
+    
+    return `${import.meta.env.VITE_FILES_URL}/products/${imageName}`;
+  };
+  
   if (loading) return <div className="loading-container">Cargando detalles del producto...</div>;
   if (error) return <div className="error-container">Error: {error}</div>;
   if (!product) return <div className="error-container">Producto no encontrado</div>;
   
   return (
     <>
-      
       {successMessage && (
         <div className="success-message">
           {successMessage}
@@ -79,7 +98,7 @@ const ProductDetail = () => {
           <div className="img-product-container">
             <img 
               loading="lazy" 
-              src={product.image} 
+              src={getImageUrl(product.image)} 
               alt={`Imagen de ${product.product}`}
               className="img-product"
             />
@@ -112,7 +131,7 @@ const ProductDetail = () => {
           <div className="img-product-container">
             <img 
               loading="lazy" 
-              src={product.image} 
+              src={getImageUrl(product.image)} 
               alt={`Imagen de ${product.product}`}
               className="img-product"
             />

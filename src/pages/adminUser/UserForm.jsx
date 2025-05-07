@@ -16,10 +16,9 @@ const UserForm = ({ onSubmit, editMode, userToEdit, onCancelEdit, loading }) => 
       name: "",
       email: "",
       password: "",
-      confirmPassword: "",
       birthDate: "",
       department: "",
-      admin: "",
+      role: "",
     }
   });
 
@@ -28,8 +27,12 @@ const UserForm = ({ onSubmit, editMode, userToEdit, onCancelEdit, loading }) => 
     if (editMode && userToEdit) {
       setValue("name", userToEdit.name);
       setValue("email", userToEdit.email);
-      setValue("admin", userToEdit.admin ? "si" : "no");
-      setValue("birthDate", userToEdit.birthDate);
+      setValue("role", userToEdit.role === "admin" ? "admin" : "user");
+      if (userToEdit.birthDate) {
+        const date = new Date(userToEdit.birthDate);
+        const formattedDate = date.toISOString().split('T')[0];
+        setValue("birthDate", formattedDate);
+      }
       setValue("department", userToEdit.department);
       setValue("password", "");
       
@@ -48,18 +51,22 @@ const UserForm = ({ onSubmit, editMode, userToEdit, onCancelEdit, loading }) => 
   }, [editMode, userToEdit, setValue]);
 
   const submitForm = async (data) => {
-    // Transformar admin de si / no a booleano
     const userData = {
       ...data,
-      admin: data.admin === "si"
+      role: data.role === "admin" ? "admin" : "user"
     };
+
+    if (userData.birthDate) {
+      const date = new Date(userData.birthDate);
+      userData.birthDate = date.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+    }
 
     // Si la contraseña esta vacia en modo edicion, se elimina
     if (editMode && !userData.password) {
       delete userData.password;
     }
-
     const success = await onSubmit(userData, editMode);
+    
     if (success) {
       reset();
     }
@@ -75,6 +82,7 @@ const UserForm = ({ onSubmit, editMode, userToEdit, onCancelEdit, loading }) => 
             className={`input-group-form ${errors.name ? 'input-error' : ''}`}
             type="text"
             id="name"
+            placeholder="Nombre Completo"
             {...register("name", {
               required: "El nombre es obligatorio",
               minLength: {
@@ -87,7 +95,7 @@ const UserForm = ({ onSubmit, editMode, userToEdit, onCancelEdit, loading }) => 
               },
               pattern: {
                 value: /^[a-zA-Z ]+$/,
-                message: "El nombre solo puede contener letras"
+                message: "El nombre solo puede contener letras (sin acentos)"
               }
             })}
             ref={(e) => {
@@ -104,6 +112,7 @@ const UserForm = ({ onSubmit, editMode, userToEdit, onCancelEdit, loading }) => 
             className={`input-group-form ${errors.email ? 'input-error' : ''}`}
             type="email"
             id="mail"
+            placeholder="Correo Electrónico"
             {...register("email", {
               required: "El correo electrónico es obligatorio",
               pattern: {
@@ -121,6 +130,7 @@ const UserForm = ({ onSubmit, editMode, userToEdit, onCancelEdit, loading }) => 
             className={`input-group-form ${errors.password ? 'input-error' : ''}`}
             type="password"
             id="password"
+            placeholder="Contraseña"
             {...register("password", {
               required: !editMode ? "La contraseña es obligatoria" : false,
               minLength: editMode ? false : {
@@ -128,12 +138,12 @@ const UserForm = ({ onSubmit, editMode, userToEdit, onCancelEdit, loading }) => 
                 message: "La contraseña debe tener al menos 8 caracteres"
               },
               maxLength: editMode ? false : {
-                value: 16,
-                message: "La contraseña no debe tener más de 16 caracteres"
+                value: 100,
+                message: "La contraseña no debe tener más de 100 caracteres"
               },
               pattern: editMode ? false : {
-                value: /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/,
-                message: "La contraseña debe contener al menos una mayúscula, una minúscula y un número"
+                value: /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,}$/,
+                message: "La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial"
               }
             })}
           />
@@ -156,18 +166,18 @@ const UserForm = ({ onSubmit, editMode, userToEdit, onCancelEdit, loading }) => 
         
         <div className="input-group-admin">
           <select
-            id="admin"
-            className={errors.admin ? 'input-error' : ''}
-            {...register("admin", {
-              required: "Debe seleccionar si es administrador"
+            id="role"
+            className={errors.role ? 'input-error' : ''}
+            {...register("role", {
+              required: "Debe seleccionar un rol"
             })}
           >
-            <option value="">Es administrador</option>
-            <option value="si">Si</option>
-            <option value="no">No</option>
+            <option value="">Seleccionar rol</option>
+            <option value="admin">Administrador</option>
+            <option value="user">Usuario</option>
           </select>
-          <label className="label-group" htmlFor="admin"></label>
-          {errors.admin && <p className="error-message">{errors.admin.message}</p>}
+          <label className="label-group" htmlFor="role"></label>
+          {errors.role && <p className="error-message">{errors.role.message}</p>}
         </div>
         
         <div className="input-group-departamento">

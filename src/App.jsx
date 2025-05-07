@@ -33,7 +33,7 @@ const App = () => {
         <Route
           path="/admin-products"
           element={
-            <ProtectedRoute requiredRole="admin">
+            <ProtectedRoute>
               <AdminProduct title="TecnoMart | Administrador de productos" />
             </ProtectedRoute>
           }
@@ -41,7 +41,7 @@ const App = () => {
         <Route
           path="/admin-users"
           element={
-            <ProtectedRoute requiredRole="admin">
+            <ProtectedRoute>
               <AdminUser title="TecnoMart | Administrador de usuarios" />
             </ProtectedRoute>
           }

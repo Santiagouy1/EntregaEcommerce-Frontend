@@ -164,7 +164,45 @@
   flex-direction: column;
 }
 
-@media screen and (width >= 767px) {
+@media screen and (min-width: 767px) and (max-width: 950px) {
+  .parent {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: nowrap !important;
+  }
+
+  .formNewUser {
+    width: 300px !important;
+    flex: 0 0 auto !important;
+    margin-right: 1rem;
+  }
+
+  .newUser {
+    width: 300px !important;
+    flex: 0 0 auto !important;
+  }
+
+  .user-list {
+    margin-top: 0;
+  }
+
+  .input-group-form {
+    width: 250px;
+  }
+  
+  .input-group-admin select,
+  .input-group-departamento select {
+    width: 250px;
+  }
+  
+  .btn-formulario-container {
+    width: 250px;
+  }
+}
+
+@media screen and (min-width: 767px) {
   .parent {
     display: flex;
     flex-direction: row;
@@ -180,14 +218,14 @@
     padding: 0.75rem 0.75rem 0.75rem 1rem;
     width: 100%;
   }
-  .input-group-admin,
-  .input-group-departamento {
-    select {
-      padding: 0.75rem;
-      width: 100%;
-    }
+  
+  .input-group-admin select,
+  .input-group-departamento select {
+    padding: 0.75rem;
+    width: 100%;
   }
-  .btn-formulario-container{
+  
+  .btn-formulario-container {
     width: 100%;
   }
 
@@ -204,32 +242,32 @@
   .input-group-form {
     width: 250px;
   }
-  .input-group-admin,
-  .input-group-departamento {
-    select {
-      width: 250px;
-    }
-  }
-  .btn-formulario-container{
+  
+  .input-group-admin select,
+  .input-group-departamento select {
     width: 250px;
   }
-
+  
+  .btn-formulario-container {
+    width: 250px;
+  }
 }
 
-@media screen and (width >= 1023px) {
+@media screen and (min-width: 1023px) {
   .formNewUser {
     width: 400px;
   }
+  
   .newUser {
     width: 400px;
   }
+  
   .input-group-form {
     padding: 1rem;
   }
-  .input-group-admin,
-  .input-group-departamento {
-    select {
-      padding: 1rem;
-    }
+  
+  .input-group-admin select,
+  .input-group-departamento select {
+    padding: 1rem;
   }
 }

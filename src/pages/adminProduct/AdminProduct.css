@@ -1,4 +1,4 @@
-.parent{
+.parent {
   display: flex;
   flex-direction: column;
 }
@@ -30,123 +30,172 @@
   overflow: hidden;
   width: 100%;
   margin: 1rem 0;
+}
 
-  th {
-    padding: 0.5rem 1rem;
-    background-color: var(--color-primary);
-    color: var(--color-secondary);
-    font-weight: 500;
-  }
+.table-product th {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  font-weight: 500;
+}
 
-  tbody tr:nth-child(even) {
-    background-color: var(--color-blue-light);
-  }
+.table-product tbody tr:nth-child(even) {
+  background-color: var(--color-blue-light);
+}
 
-  th,
-  td {
-    border: solid 1px var(--color-terceary);
-  }
+.table-product th,
+.table-product td {
+  border: solid 1px var(--color-terceary);
+}
 
-  tr {
-    > td {
-      padding: 0.5rem;
-    }
-  }
+.table-product tr > td {
+  padding: 0.5rem;
+}
 
-  .image-cell {
-    text-align: center;
-    .table-image {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      object-fit: cover;
-      filter: drop-shadow(4px 4px 6px #525252);
-    }
-  }
+.image-cell {
+  text-align: center;
+}
 
-  .name-cell {
-    text-align: center;
-    font-weight: 500;
-    .text-name-cell {
-      display: -webkit-box;
-      line-clamp: 3;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-  }
+.table-image {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: drop-shadow(4px 4px 6px #525252);
+}
 
-  .category-cell{
-    text-align: center;
-    font-weight: 500;
-    .text-name-cell {
-      display: -webkit-box;
-      line-clamp: 3;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-  }
+.name-cell {
+  text-align: center;
+  font-weight: 500;
+}
 
-  .description-cell {
-    padding: 0.5rem;
-    font-weight: 500;
-    .text-description-cell {
-      display: -webkit-box;
-      line-clamp: 3;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-  }
+.text-name-cell {
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
-  .price-cell {
-    font-weight: 500;
-    text-align: center;
-  }
+.category-cell {
+  text-align: center;
+  font-weight: 500;
+}
 
-  .icon-container {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-  }
+.description-cell {
+  padding: 0.5rem;
+  font-weight: 500;
+}
+
+.text-description-cell {
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.price-cell {
+  font-weight: 500;
+  text-align: center;
+}
+
+.icon-container {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
 }
 
 .btnEditarProducts {
   background-color: var(--color-gray-dark);
+}
 
-  &:hover {
-    background-color: var(--color-terceary);
+.btnEditarProducts:hover {
+  background-color: var(--color-terceary);
+}
+
+.image-preview {
+  margin-top: 10px;
+}
+
+.preview-image {
+  max-width: 100px;
+  max-height: 100px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.file-info {
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+@media screen and (max-width: 767px) {
+  .formulario-container {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+  
+  .formNewProducts {
+    margin-right: 0;
+    padding: 0 1rem;
   }
 }
 
-@media screen and (width >= 767px){
-  .formulario-container{
-    display: block  ;
+@media screen and (min-width: 768px) and (max-width: 950px) {
+  .parent {
+    flex-direction: column;
   }
-  .parent{
+  
+  .formNewProducts {
+    margin-right: 0;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  
+  .formulario-container {
+    display: block;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+  
+  .container-table {
+    width: 100%;
+    overflow-x: auto;
+    padding: 0 1rem;
+  }
+  
+  .table-product {
+    min-width: 700px; 
+  }
+}
+
+@media screen and (min-width: 951px) {
+  .formulario-container {
+    display: block;
+    margin: 0;
+  }
+  
+  .parent {
     display: flex;
     flex-direction: row;
   }
   
   .container-table {
     overflow-x: initial;
-    max-width: 100%;
-    .table-products {
-      margin: 0;
-    }
+    flex-grow: 1;
   }
-
+  
+  .table-products {
+    margin: 0;
+  }
 }
 
-@media screen and (width >= 1439px){
-  .formulario-container{
-    display: block  ;
-  }
-  .table-product{
-    th{
-      padding: 1rem 1.5rem;
-          font-size: 1.1em;
-    }
+@media screen and (min-width: 1440px) {
+  .table-product th {
+    padding: 1rem 1.5rem;
+    font-size: 1.1em;
   }
 }

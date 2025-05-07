@@ -11,7 +11,8 @@ const ProductForm = ({
   error,
   success,
 }) => {
-  const [urlImagen, setUrlImagen] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
   const imageInputRef = useRef(null);
 
   const {
@@ -22,7 +23,6 @@ const ProductForm = ({
     formState: { errors },
   } = useForm({
     defaultValues: {
-      image: "",
       product: "",
       description: "",
       price: "",
@@ -34,25 +34,27 @@ const ProductForm = ({
   // Cargar datos del producto al editar
   useEffect(() => {
     if (initialProduct) {
-      setValue("image", initialProduct.image);
       setValue("product", initialProduct.product);
       setValue("description", initialProduct.description);
       setValue("price", initialProduct.price);
       setValue("category", initialProduct.category);
-      setValue("dateCreate", initialProduct.dateCreate);
-      setUrlImagen(initialProduct.image);
+      
+      if (initialProduct.dateCreate) {
+        const dateObj = new Date(initialProduct.dateCreate);
+        const formattedDate = dateObj.toISOString().split('T')[0];
+        setValue("dateCreate", formattedDate);
+      }
+      
+      // mostrar vista previa de la imagen
+      if (initialProduct.image) {
+        setPreviewImage(`${import.meta.env.VITE_FILES_URL}/products/${initialProduct.image}`);
+      }
 
-      // Mover al formulario y enfocar el campo de imagen
+      // Mover al formulario y enfocar el primer campo
       if (typeof document !== "undefined" && document.documentElement) {
         const formulario = document.getElementById("formulario");
         if (formulario) {
           formulario.scrollIntoView({ behavior: "smooth" });
-          
-          setTimeout(() => {
-            if (imageInputRef.current) {
-              imageInputRef.current.focus();
-            }
-          }, 500);
         }
       }
     }
@@ -62,20 +64,52 @@ const ProductForm = ({
   useEffect(() => {
     if (!edicionModo) {
       reset();
-      setUrlImagen("");
+      setPreviewImage("");
+      setSelectedFile(null);
     }
   }, [edicionModo, reset]);
 
-  const submitHandler = (data) => {
+  // Maneja el cambio de imagen
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Almacenar el archivo seleccionado
+      setSelectedFile(file);
+      
+      // Crear URL para vista previa
+      const fileUrl = URL.createObjectURL(file);
+      setPreviewImage(fileUrl);
+      
+    } else {
+      setSelectedFile(null);
+      setPreviewImage("");
+    }
+  };
+
+  const submitHandler = async (data) => {
+    // Validar imagen requerida para nuevos productos
+    if (!edicionModo && !selectedFile) {
+      alert("Debes seleccionar una imagen para el producto");
+      return;
+    }
+    
+    // Crear objeto con los datos del formulario
     const productData = {
       ...data,
-      image: urlImagen,
+      image: selectedFile,
     };
-
-    const success = onSubmit(productData);
+    
+    // Enviar datos al componente padre
+    const success = await onSubmit(productData);
+    
     if (success) {
       reset();
-      setUrlImagen("");
+      setPreviewImage("");
+      setSelectedFile(null);
+      // limpiar el input de archivo
+      if (imageInputRef.current) {
+        imageInputRef.current.value = "";
+      }
     }
   };
 
@@ -83,30 +117,41 @@ const ProductForm = ({
     <div className="formNewProducts" id="formulario">
       <SubTitle title={edicionModo ? "Editar Producto" : "Agregar Producto"} />
 
-      {error && <div className="error-message">{error}</div>}
+      {error && (
+        <div className="error-message">
+          {error}
+        </div>
+      )}
 
       {success && (
-        <div className="mensaje-exito">La operacion se realizo con exito!</div>
+        <div className="mensaje-exito">
+          La operación se realizó con éxito!
+        </div>
       )}
 
       <form className="formulario-container" onSubmit={handleSubmit(submitHandler)}>
         <div className="input-group">
           <input
             className={`input-group-form ${errors.image ? "input-error" : ""}`}
-            type="url"
+            type="file"
+            accept="image/*"
             id="image"
-            {...register("image", {
-              required: "La imagen del producto es obligatoria",
-            })}
-            value={urlImagen}
             ref={imageInputRef}
-            onChange={(e) => setUrlImagen(e.target.value)}
+            onChange={handleImageChange}
           />
           <label className="label-group" htmlFor="image">
-            URL de la Imagen
+            Imagen del Producto *
           </label>
-          {errors.image && (
-            <p className="error-message">{errors.image.message}</p>
+          
+          {/* Vista previa de la imagen */}
+          {previewImage && (
+            <div className="image-preview">
+              <img 
+                src={previewImage} 
+                alt="Vista previa" 
+                className="preview-image"
+              />
+            </div>
           )}
         </div>
 
@@ -120,7 +165,7 @@ const ProductForm = ({
             })}
           />
           <label className="label-group" htmlFor="product">
-            Nombre del Producto
+            Nombre del Producto *
           </label>
           {errors.product && (
             <p className="error-message">{errors.product.message}</p>
@@ -132,14 +177,13 @@ const ProductForm = ({
             className={`input-group-form ${
               errors.description ? "input-error" : ""
             }`}
-            type="text"
             id="description"
             {...register("description", {
               required: "La descripción es obligatoria",
             })}
           />
           <label className="label-group" htmlFor="description">
-            Descripción
+            Descripción *
           </label>
           {errors.description && (
             <p className="error-message">{errors.description.message}</p>
@@ -151,13 +195,15 @@ const ProductForm = ({
             className={`input-group-form ${errors.price ? "input-error" : ""}`}
             type="number"
             id="price"
+            step="0.01"
             {...register("price", {
               required: "El precio es obligatorio",
               valueAsNumber: true,
+              validate: value => value > 0 || "El precio debe ser mayor que cero"
             })}
           />
           <label className="label-group" htmlFor="price">
-            Precio
+            Precio *
           </label>
           {errors.price && (
             <p className="error-message">{errors.price.message}</p>
@@ -178,7 +224,7 @@ const ProductForm = ({
             <option value="auriculares">Auriculares</option>
           </select>
           <label className="label-group" htmlFor="category">
-            Categoría
+            Categoría *
           </label>
           {errors.category && (
             <p className="error-message">{errors.category.message}</p>
@@ -207,7 +253,7 @@ const ProductForm = ({
             })}
           />
           <label className="label-group" htmlFor="dateCreate">
-            Fecha de Creación
+            Fecha de Creación *
           </label>
           {errors.dateCreate && (
             <p className="error-message">{errors.dateCreate.message}</p>
@@ -218,7 +264,7 @@ const ProductForm = ({
           <button
             className="btn-formulario-container"
             type="submit"
-            disabled={loading}
+            disabled={loading || (!edicionModo && !selectedFile)}
           >
             {loading
               ? "Procesando..."

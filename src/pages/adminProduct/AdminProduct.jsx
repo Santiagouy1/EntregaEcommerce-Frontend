@@ -3,6 +3,7 @@ import ProductForm from "./ProductForm";
 import ProductTable from "./ProductTable";
 import Titles from "../../components/titles/Titles";
 import "./AdminProduct.css";
+import { URL } from "../../config/env.config";
 
 const AdminProduct = ({ title }) => {
   const [products, setProducts] = useState([]);
@@ -11,7 +12,7 @@ const AdminProduct = ({ title }) => {
   const [success, setSuccess] = useState(false);
   const [edicionModo, setEdicionModo] = useState(false);
   const [editarProductoId, setEditarProductoId] = useState(null);
-  const URL_PRODUCTS = "https://67cb832e3395520e6af589a3.mockapi.io/products";
+  const URL_PRODUCTS = `${URL}/products`
 
   useEffect(() => {
     document.title = title;
@@ -30,10 +31,18 @@ const AdminProduct = ({ title }) => {
       const response = await fetch(URL_PRODUCTS);
       if (!response.ok) throw new Error("Error al cargar productos");
       const data = await response.json();
-      setProducts(data);
+      
+      // Verificamos si la respuesta contiene una propiedad 'products'
+      if (data && data.products) {
+        setProducts(data.products);
+      } else {
+        // Si no tiene la propiedad 'products', asumimos que la respuesta es el array directamente
+        setProducts(Array.isArray(data) ? data : []);
+      }
     } catch (err) {
       setError(err.message);
       console.error("Error:", err);
+      setProducts([]); // En caso de error, aseguramos que products sea un array vacío
     } finally {
       setLoading(false);
     }
@@ -42,7 +51,7 @@ const AdminProduct = ({ title }) => {
   // Manejo de edicion del producto
   const handleEdit = async (producto) => {
     setEdicionModo(true);
-    setEditarProductoId(producto.id);
+    setEditarProductoId(producto._id);
     return Promise.resolve();
   };
 
@@ -58,7 +67,7 @@ const AdminProduct = ({ title }) => {
 
       if (!response.ok) throw new Error("Error al eliminar producto");
 
-      setProducts(products.filter((producto) => producto.id !== id));
+      setProducts(products.filter((producto) => producto._id !== id));
 
       setSuccess(true);
       setTimeout(() => {
@@ -82,12 +91,12 @@ const AdminProduct = ({ title }) => {
   const handleSubmit = async (productData) => {
     setLoading(true);
     setError(null);
-
+  
     try {
       let response;
       let method;
       let endpoint = URL_PRODUCTS;
-
+  
       // En modo edicion se actualiza el producto existente
       if (edicionModo && editarProductoId) {
         method = "PUT";
@@ -96,52 +105,79 @@ const AdminProduct = ({ title }) => {
         // Si no, se crea un nuevo producto
         method = "POST";
       }
-
+  
+      // Crear un FormData para enviar los datos, incluyendo imágenes
+      const formData = new FormData();
+      
+      // Añadir cada campo del producto al FormData
+      formData.append('product', productData.product);
+      formData.append('description', productData.description);
+      formData.append('price', productData.price);
+      formData.append('category', productData.category);
+      formData.append('dateCreate', productData.dateCreate);
+      
+      if (productData.image) {
+        formData.append('image', productData.image);
+      } 
+  
       response = await fetch(endpoint, {
         method: method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productData),
+        body: formData,
       });
-
+  
+      // Si no es una respuesta exitosa, obtener el mensaje de error 
       if (!response.ok) {
-        throw new Error(
-          `Error al ${edicionModo ? "actualizar" : "agregar"} producto`
-        );
+        let errorDetail = "";
+        try {
+          const errorData = await response.json();
+          console.error("Datos de error del servidor:", errorData);
+          errorDetail = errorData.message || "";
+        } catch (e) {
+          console.log(e);
+        }
+  
+        throw new Error(`Error al ${edicionModo ? "actualizar" : "crear"} el producto` + 
+                       (errorDetail ? `: ${errorDetail}` : ""));
       }
-
-      const resultProduct = await response.json();
-
+  
+      // Procesar la respuesta exitosa
+      const result = await response.json();
+      
+      // Obtener el producto de la respuesta 
+      const resultProduct = result.product || result;
+  
       if (edicionModo) {
         // Actualizar el producto en la lista
         setProducts(
           products.map((producto) =>
-            producto.id === editarProductoId ? resultProduct : producto
+            producto._id === editarProductoId ? resultProduct : producto
           )
         );
-        // Salir de modo edicion
+        // Salir de modo edición
         setEdicionModo(false);
         setEditarProductoId(null);
       } else {
         // Agregar el nuevo producto a la lista
         setProducts([...products, resultProduct]);
       }
-
-      // Mostrar mensaje de exito
+  
+      // Mostrar mensaje de éxito
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
       }, 3000);
-
+  
+      // Actualizar la lista de productos
+      fetchProducts();
+      
+      return true; // Indicar éxito
     } catch (err) {
+      console.error("Error completo:", err);
       setError(err.message);
-      console.error("Error:", err);
       return false;
     } finally {
       setLoading(false);
     }
-    return true;
   };
 
   // Funcion para cancelar la edicion
@@ -163,7 +199,7 @@ const AdminProduct = ({ title }) => {
           onCancel={handleCancelEdit}
           initialProduct={
             editarProductoId
-              ? products.find((p) => p.id === editarProductoId)
+              ? products.find((p) => p._id === editarProductoId)
               : null
           }
           error={error}

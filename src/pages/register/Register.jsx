@@ -8,6 +8,7 @@ import {
   faLock,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { URL } from "../../config/env.config";
 
 const Register = ({ title }) => {
   useEffect(() => {
@@ -48,7 +49,7 @@ const Register = ({ title }) => {
     }
 
     try {
-      const URL = "https://67cb832e3395520e6af589a3.mockapi.io/users";
+      const URL_USERS = `${URL}/users`;
 
       // Prepara los datos para enviar
       const dataToSend = {
@@ -61,7 +62,7 @@ const Register = ({ title }) => {
         createdAt: new Date().toISOString(),
       };
 
-      const response = await fetch(URL, {
+      const response = await fetch(URL_USERS, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

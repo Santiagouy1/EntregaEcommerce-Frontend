@@ -108,3 +108,7 @@ html {
     background-color: var(--color-blue-light);
   }
 }
+
+.my-swal-z-index {
+  z-index: 10001 !important;
+}

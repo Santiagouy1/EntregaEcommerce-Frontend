@@ -15,26 +15,28 @@ const UserList = ({ users, loading, onEdit, onDelete }) => {
         <ul className="user-list">
           <SubTitle title={"Usuarios"} />
           {users.map((user) => (
-            <li key={user.id} className="user-item">
+            <li key={user._id} className="user-item">
               <div className="user-info">
-                <p><b>Nombre: </b>{user.name}</p>
-                <p><b>Email: </b> {user.email}</p>
+                <p key={`${user._id}-name`}><b>Nombre: </b>{user.name.toLowerCase()}</p>
+                <p key={`${user._id}-email`}><b>Email: </b> {user.email}</p>
                 {user.birthDate && (
-                  <p>
-                    <b>Fecha de nacimiento:</b> {new Date(user.birthDate +  "T00:00:00").toLocaleDateString("es-UY")}
+                  <p key={`${user._id}-birth`}>
+                    <b>Fecha de nacimiento:</b> {new Date(user.birthDate).toLocaleDateString("es-UY")}
                   </p>
                 )}
-                <p><b>Rol: </b> {user.admin ? "Administrador" : "Usuario"}</p>
-                <p><b>Departamento: </b>{user.department}</p>
+                <p key={`${user._id}-role`}><b>Rol: </b> {user.role === "admin" ? "Administrador" : "Usuario"}</p>
+                <p key={`${user._id}-dept`}><b>Departamento: </b>{user.department}</p>
               </div>
               <div className="botonesAdmin">
                 <BotonEliminar
-                  onDelete={() => onDelete(user.id)}
+                  key={`${user._id}-delete`}
+                  onDelete={() => onDelete(user._id)}
                   itemType="usuario"
                   itemName={user.name}
                   className="btn btnEliminar"
                 />
                 <BotonEditar 
+                  key={`${user._id}-edit`}
                   onEdit={() => onEdit(user)}
                   itemType="usuario"       
                   itemName={user.name}   

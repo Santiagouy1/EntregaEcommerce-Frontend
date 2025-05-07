@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { useCart } from '../../context/OrderContext'; 
+import { useCart } from '../../context/OrderContext';
+import { URL } from '../../config/env.config';
 
 const Card = ({ category }) => {
   const [products, setProducts] = useState([]);
@@ -14,7 +15,7 @@ const Card = ({ category }) => {
   // Contexto del carrito
   const { addToCart } = useCart();
   
-  const URL_PRODUCTS = "https://67cb832e3395520e6af589a3.mockapi.io/products";
+  const URL_PRODUCTS = `${URL}/products`;
   
   useEffect(() => {
     const fetchProductosPorCategoria = async () => {
@@ -24,14 +25,20 @@ const Card = ({ category }) => {
         if (!response.ok) throw new Error("Error al cargar productos");
         
         const data = await response.json();
+        
+        // Asegurar que data sea un array
+        const productsArray = Array.isArray(data) ? data : 
+                             (data.products ? data.products : []);
+        
         const filteredProducts = category
-          ? data.filter(product => product.category === category)
-          : data;
+          ? productsArray.filter(product => product.category === category)
+          : productsArray;
         
         setProducts(filteredProducts);
         setLoading(false);
       } catch (err) {
         setError(err.message);
+        setProducts([]);
         setLoading(false);
       }
     };
@@ -43,7 +50,7 @@ const Card = ({ category }) => {
     try {
       await addToCart(product, 1);
       
-      // mensjae de exito
+      // mensaje de éxito
       setSuccessMessage(`${product.product} fue agregado al carrito`);
       
       setTimeout(() => {
@@ -57,9 +64,12 @@ const Card = ({ category }) => {
     }
   };
   
+  // Verificar si products es un array
+  const productsArray = Array.isArray(products) ? products : [];
+  
   if (loading) return <div>Cargando productos...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (products.length === 0) return <div>No hay productos en esta categoría</div>;
+  if (productsArray.length === 0) return <div>No hay productos en esta categoría</div>;
   
   return (
     <div className="section-items">
@@ -70,11 +80,11 @@ const Card = ({ category }) => {
       )}
       
       <div className="prodcut-container">
-        {products.map(product => (
-          <article key={product.id} className="card-brands">
+        {productsArray.map(product => (
+          <article key={product._id || `temp-${Math.random()}`} className="card-brands">
             <div className="card-content-brands">
               <img
-                src={product.image}
+                src={`${import.meta.env.VITE_FILES_URL}/products/${product.image}`}
                 alt={`Imagen de ${product.product}`}
                 loading="lazy"
                 className="card-img-brands"
@@ -84,7 +94,7 @@ const Card = ({ category }) => {
                 <div className="icon-circle-brands">
                   <Link
                     className="link-lupa"
-                    to={`/pages/products/${product.id}`}
+                    to={`/pages/products/${product._id}`}
                     title='Ver mas detalle'
                   >
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
