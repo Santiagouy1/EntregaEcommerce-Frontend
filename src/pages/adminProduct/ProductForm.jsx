@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import SubTitle from "../../components/titles/Subtitle";
+import SubTitles from "../../components/titles/SubTitles";
 
 const ProductForm = ({
   loading,
@@ -115,7 +115,7 @@ const ProductForm = ({
 
   return (
     <div className="formNewProducts" id="formulario">
-      <SubTitle title={edicionModo ? "Editar Producto" : "Agregar Producto"} />
+      <SubTitles title={edicionModo ? "Editar Producto" : "Agregar Producto"} />
 
       {error && (
         <div className="error-message">

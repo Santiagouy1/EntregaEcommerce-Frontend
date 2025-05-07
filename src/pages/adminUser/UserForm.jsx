@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import SubTitle from "../../components/titles/Subtitle";
+import SubTitles from "../../components/titles/SubTitles";
 
 const UserForm = ({ onSubmit, editMode, userToEdit, onCancelEdit, loading }) => {
   const nameInputRef = useRef(null);
@@ -74,7 +74,7 @@ const UserForm = ({ onSubmit, editMode, userToEdit, onCancelEdit, loading }) => 
 
   return (
     <div className="formNewUser" id="formulario">
-      <SubTitle title={editMode ? "Editar Usuario" : "Agregar Usuario"} />
+      <SubTitles title={editMode ? "Editar Usuario" : "Agregar Usuario"} />
 
       <form className="formulario-container" onSubmit={handleSubmit(submitForm)}>
         <div className="input-group">

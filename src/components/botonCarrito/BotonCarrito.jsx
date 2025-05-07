@@ -6,8 +6,8 @@ import { useCart } from "../../context/OrderContext";
 import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import Modal from "../modal/Modal";
-import SubTitle from "../titles/Subtitle";
 import Swal from "sweetalert2";
+import SubTitles from "../titles/SubTitles";
 
 const BotonCarrito = () => {
   // Estado para el carrito
@@ -127,7 +127,7 @@ const BotonCarrito = () => {
 
       <Modal isOpen={isModalOpen} onClose={toggleModal}>
         <div className="cart-modal">
-          <SubTitle title={"Mi carrito"} />
+          <SubTitles title={"Mi carrito"} />
 
           {cartItems.length === 0 ? (
             <div className="empty-cart">

@@ -1,6 +1,6 @@
-import SubTitle from "../../components/titles/Subtitle";
 import BotonEliminar from "../../components/botonEliminar/BotonEliminar";
 import BotonEditar from "../../components/botonEditar/BotonEditar";
+import SubTitles from "../../components/titles/SubTitles";
 
 const UserList = ({ users, loading, onEdit, onDelete }) => {
   return (
@@ -13,7 +13,7 @@ const UserList = ({ users, loading, onEdit, onDelete }) => {
         <p className="no-users">No hay usuarios registrados</p>
       ) : (
         <ul className="user-list">
-          <SubTitle title={"Usuarios"} />
+          <SubTitles title={"Usuarios"} />
           {users.map((user) => (
             <li key={user._id} className="user-item">
               <div className="user-info">
