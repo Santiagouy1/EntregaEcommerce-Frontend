@@ -8,7 +8,7 @@ import Contact from "./pages/contact/Contact";
 import Home from "./pages/home/Home";
 import Register from "./pages/register/Register";
 import AdminUser from "./pages/adminUser/AdminUser";
-import AdminProduct from "./pages/adminProduct/adminProduct";
+import AdminProduct from "./pages/adminProduct/AdminProduct";
 import LogIn from "./pages/logIn/LogIn";
 import ProductDetail from "./pages/productDetail/ProductDetail";
 import NotFound from "./pages/notFound/NotFound";
