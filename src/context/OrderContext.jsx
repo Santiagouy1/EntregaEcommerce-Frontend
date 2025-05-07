@@ -138,6 +138,38 @@ export const CartProvider = ({ children }) => {
     0
   );
 
+  // Funcioin para obtener todas las ordenes
+  const getAllOrders = async () => {
+    try {
+      // Verificar si el usuario está autenticado
+      if (!user || !token) {
+        console.error("Usuario no autenticado");
+        return { success: false, message: "Debes iniciar sesión para ver las órdenes" };
+      }
+  
+      // Hacer la petición GET para obtener todas las órdenes
+      const response = await axios.get(`${URL}/orders`, {
+        headers: {
+          access_token: token
+        }
+      });
+  
+      // Mostrar todas las órdenes por consola
+      console.log("Todas las órdenes:", response.data.orders || response.data);
+      
+      return { 
+        success: true, 
+        orders: response.data.orders || response.data 
+      };
+    } catch (error) {
+      console.error("Error al obtener las órdenes:", error);
+      return { 
+        success: false, 
+        message: error.response?.data?.message || "Error al obtener las órdenes" 
+      };
+    }
+  };
+
   // Función para crear una orden
   const createOrder = async () => {
     try {
@@ -148,12 +180,12 @@ export const CartProvider = ({ children }) => {
       if (cartItems.length === 0) {
         return { success: false, message: "El carrito está vacío" };
       }
-
+  
       // Verificar si el usuario esta autenticado
       if (!user || !token) {
         return { success: false, message: "Debes iniciar sesión para realizar una compra" };
       }
-
+  
       // estructura de datos para la orden
       const orderData = {
         user: user._id,
@@ -164,19 +196,22 @@ export const CartProvider = ({ children }) => {
         })),
         total: totalPrice
       };
-
+  
       // Enviar la orden al backend
       const response = await axios.post(`${URL}/orders`, orderData, {
         headers: {
           access_token: token
         }
       });
-
+  
       // Si la orden se crea correctamente, limpiar el carrito
       if (response.data.order) {
         clearCart();
+        
+        // Obtener todas las órdenes después de crear una nueva
+        await getAllOrders();
       }
-
+  
       return { success: true, order: response.data.order };
     } catch (error) {
       console.error("Error al crear la orden:", error);
@@ -196,7 +231,8 @@ export const CartProvider = ({ children }) => {
     itemCount,
     totalPrice,
     createOrder,
-    updateCartPrices
+    updateCartPrices,
+    getAllOrders
   };
 
   return (
