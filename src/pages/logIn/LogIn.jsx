@@ -1,8 +1,8 @@
 import "./LogIn.css";
-import SubTitle from "../../components/titles/Subtitle";
 import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useUser } from "../../context/UserContext";
+import SubTitle from "../../components/titles/Subtitle";
 
 const LogIn = () => {
   const { 
