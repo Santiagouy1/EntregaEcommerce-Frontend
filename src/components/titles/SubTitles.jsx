@@ -1,6 +1,6 @@
 import '../../index.css'
 
-const SubTitle = ( { title } ) =>{
+const SubTitles = ( { title } ) =>{
     return(
         <>
             <h2 className='subtitle'>
@@ -10,4 +10,4 @@ const SubTitle = ( { title } ) =>{
     )
 }
 
-export default SubTitle
+export default SubTitles
