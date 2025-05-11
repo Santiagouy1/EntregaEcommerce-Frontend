@@ -60,27 +60,23 @@ const AdminUser = ({ title }) => {
   const handleSubmit = async (userData, isEditing) => {
     setLoading(true);
     setError(null);
-
+  
     try {
       let response;
       let method;
       let endpoint = URL_USERS;
       let headers = {
         "Content-Type": "application/json",
+        "access_token": token,
       };
-
-      // Si es edición, añadimos el token de autenticación
+  
       if (isEditing) {
         method = "PUT";
         endpoint = `${URL_USERS}/${editarUsuarioId}`;
-        headers = {
-          ...headers,
-          "access_token": token, // Enviamos el token
-        };
       } else {
         method = "POST";
       }
-
+  
       response = await fetch(endpoint, {
         method: method,
         headers: headers,
@@ -151,32 +147,47 @@ const AdminUser = ({ title }) => {
   const deleteUser = async (id) => {
     setLoading(true);
     setError(null);
-
+  
     try {
       const response = await fetch(`${URL_USERS}/${id}`, {
         method: "DELETE",
+        headers: {
+          "access_token": token
+        }
       });
-
+  
       if (!response.ok) {
-        const errorData = await response.json().catch(() => null) || await response.text();
-        throw new Error(
-          typeof errorData === 'object' && errorData.message 
-            ? errorData.message 
-            : "Error al eliminar usuario"
-        );
+        // Solo intentamos leer el cuerpo una vez
+        const errorText = await response.text();
+        let errorMessage = "Error al eliminar usuario";
+        
+        try {
+          // Intentamos parsear como JSON si es posible
+          const errorData = JSON.parse(errorText);
+          if (errorData.message) {
+            errorMessage = errorData.message;
+          }
+        } catch (e) {
+          console.log(e);
+          if (errorText) {
+            errorMessage = errorText;
+          }
+        }
+        
+        throw new Error(errorMessage);
       }
-
+  
       setUsers(users.filter((user) => user._id !== id));
-
+  
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
       }, 3000);
-
+  
       if (editarUsuarioId === id) {
         cancelEdit();
       }
-
+  
       return true;
     } catch (err) {
       setError(err.message);
